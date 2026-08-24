@@ -24,9 +24,9 @@
             <p id="c-desc" style="color: var(--text-secondary); margin-bottom: 25px; font-size: 1.05rem;"></p>
             
             <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
-                <h3 style="margin-bottom: 15px; color: #f8fafc; font-size: 1.2rem;">📚 محتويات المنهج والدروس:</h3>
+                <h3 style="margin-bottom: 15px; color: #f8fafc; font-size: 1.2rem;">📚 محتويات المنهج والدروس (اضغط على أي درس لعرض محتواه):</h3>
                 <ul id="lessons-list" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;">
-                    <!-- ستظهر الدروس هنا بتصميم احترافي -->
+                    <!-- ستظهر الدروس هنا تفاعلية وقابلة للضغط -->
                 </ul>
             </div>
 
@@ -37,40 +37,87 @@
         </div>
     </main>
 
+    <!-- النافذة المنبثقة (Modal) لعرض محتوى الدرس عند النقر عليه -->
+    <div id="lesson-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 1000; justify-content: center; align-items: center; padding: 20px;">
+        <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; width: 100%; max-width: 600px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; max-height: 90vh; overflow-y: auto;">
+            <button onclick="closeLessonModal()" style="position: absolute; top: 15px; left: 15px; background: transparent; border: none; color: #94a3b8; font-size: 1.6rem; cursor: pointer;">✕</button>
+            <h3 id="modal-lesson-title" style="color: var(--accent); margin-bottom: 15px; font-size: 1.3rem;"></h3>
+            <div id="modal-lesson-content" style="color: #cbd5e1; font-size: 1rem; line-height: 1.7; margin-bottom: 20px;"></div>
+            <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 20px;">
+                <h4 style="color: #f8fafc; margin-bottom: 8px; font-size: 0.95rem;">💡 كود ومثال توضيحي:</h4>
+                <pre id="modal-lesson-code" style="color: #38bdf8; font-family: monospace; overflow-x: auto; font-size: 0.85rem; margin: 0; white-space: pre-wrap;"></pre>
+            </div>
+            <button onclick="closeLessonModal()" style="width: 100%; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;">إغلاق والعودة للقائمة ✅</button>
+        </div>
+    </div>
+
     <script>
-        // قاعدة بيانات داخلية متكاملة لضمان سرعة التحميل وعدم فشل جلب البيانات
+        // قاعدة بيانات متكاملة تحتوي على العناوين، الشروحات، والأكواد لكل درس
         const COURSES_DATABASE = {
             "html": {
                 title: "أساسيات HTML5",
                 icon: "🧱",
-                level: "مبتدئ",
                 description: "تعلم هيكلة صفحات الويب وكتابة العناصر الأساسية بطريقة احترافية.",
                 lessons: [
-                    "الدرس الأول: مقدمة إلى الويب وهيكل لغة HTML وطريقة عمل المتصفح",
-                    "الدرس الثاني: الوسوم الأساسية، النصوص، العناوين، والروابط التشعبية",
-                    "الدرس الثالث: الجداول، النماذج (Forms)، وبناء أول صفحة ويب متكاملة"
+                    {
+                        title: "الدرس الأول: مقدمة إلى الويب وهيكل لغة HTML",
+                        content: "لغة HTML هي البنية الأساسية لأي موقع إلكتروني (تختصر لـ HyperText Markup Language). تتكون من عناصر تُكتب داخل وسوم (Tags) لتحديد شكل ومحتوى الصفحة.",
+                        code: "<!DOCTYPE html>\n<html>\n  <head>\n    <title>موقعي الأول</title>\n  </head>\n  <body>\n    <h1>أهلاً بك في عالم الويب</h1>\n  </body>\n</html>"
+                    },
+                    {
+                        title: "الدرس الثاني: الوسوم الأساسية، النصوص، والروابط",
+                        content: "نتعلم في هذا الدرس كيفية كتابة العناوين باستخدام وسوم <h1> إلى <h6>، والفقرات النصية عبر الوسم <p>، وإضافة روابط تشعبية تنتقل بك لمواقع أخرى عبر الوسم <a>.",
+                        code: "<h1>عنوان رئيسي للموقع</h1>\n<p>هذه فقرة توضيحية داخل الصفحة.</p>\n<a href='https://google.com'>انقر هنا للانتقال لجوجل</a>"
+                    },
+                    {
+                        title: "الدرس الثالث: الجداول، النماذج (Forms)، وبناء أول صفحة",
+                        content: "تُستخدم الجداول لتنظيم البيانات في صفوف وأعمدة، بينما النماذج (Forms) تتيح للمستخدمين إدخال بياناتهم مثل خانات تسجيل الدخول وإرسال المعلومات.",
+                        code: "<form>\n  <label>اسم المستخدم:</label>\n  <input type='text' placeholder='أدخل اسمك'>\n  <button type='submit'>دخول</button>\n</form>"
+                    }
                 ]
             },
             "css": {
                 title: "تنسيق المواقع CSS3",
                 icon: "🎨",
-                level: "مبتدئ",
                 description: "أتقن توزيع العناصر، الألوان، والتصميم المتجاوب لجميع الشاشات.",
                 lessons: [
-                    "الدرس الأول: مدخل إلى CSS، المحدِّدات (Selectors)، وطرق ربطها",
-                    "الدرس الثاني: الألوان، الخطوط، وتنسيق الصناديق (Box Model)",
-                    "الدرس الثالث: نظام التوزيع الحديث Flexbox وتصميم الشاشات المتجاوبة"
+                    {
+                        title: "الدرس الأول: مدخل إلى CSS وطرق ربطها",
+                        content: "تُستخدم لغة CSS لإضافة الألوان، والتنسيقات، والجماليات لعناصر HTML. يتم ربطها بملف الـ HTML عبر الوسم <link> داخل قسم الـ head.",
+                        code: "body {\n  background-color: #0f172a;\n  color: #ffffff;\n  font-family: sans-serif;\n}"
+                    },
+                    {
+                        title: "الدرس الثاني: الألوان، الخطوط، وتنسيق الصناديق",
+                        content: "كل عنصر في صفحة الويب يُعتبر صندوقاً (Box Model). يتكون من المحتوى الداخلي، والحشو (Padding)، والإطار (Border)، والهامش الخارجي (Margin).",
+                        code: ".card {\n  padding: 20px;\n  border: 1px solid #334155;\n  background: rgba(255,255,255,0.05);\n  border-radius: 12px;\n}"
+                    },
+                    {
+                        title: "الدرس الثالث: نظام التوزيع الحديث Flexbox",
+                        content: "يعد Flexbox أداة قوية جداً في CSS لتوزيع العناصر وترتيبها بسلاسة تامة أفقياً أو عمودياً وبشكل متجاوب مع مختلف أحجام الهواتف.",
+                        code: ".container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}"
+                    }
                 ]
             },
             "js": {
                 title: "جافاسكريبت Vanilla JS",
                 icon: "⚡",
-                level: "متوسط",
                 description: "اجعل موقعك تفاعلياً وتحكم في عناصر الصفحة بالكامل عبر البرمجة.",
                 lessons: [
-                    "الدرس الأول: المتغيرات، أنواع البيانات، وطرق طباعة المخرجات",
-                    "الدرس الثاني: الدوال (Functions)، الشروط (If/Else)، والتكرار",
-                    "الدرس الثالث: التعامل مع المستند (DOM) والاستجابة لأحداث المستخدم"
+                    {
+                        title: "الدرس الأول: المتغيرات، أنواع البيانات، والمخرجات",
+                        content: "المتغيرات هي حاويات لتخزين البيانات في الذاكرة. نستخدم كلمات مفتاحية مثل let و const لتعريف المتغيرات في جافاسكريبت الحديثة.",
+                        code: "let userName = 'التهامي';\nlet age = 23;\nconsole.log('مرحباً بك يا ' + userName);"
+                    },
+                    {
+                        title: "الدرس الثاني: الدوال (Functions) والشروط",
+                        content: "الدوال عبارة عن أوامر برمجية قابلة لإعادة الاستخدام لتنفيذ مهمة محددة، بينما الشروط (if/else) تسمح باتخاذ قرارات برمجية بناءً على معطيات معينة.",
+                        code: "function checkAge(age) {\n  if (age >= 18) {\n    return 'مؤهل للتسجيل';\n  } else {\n    return 'غير مؤهل';\n  }\n}"
+                    },
+                    {
+                        title: "الدرس الثالث: التعامل مع مستند الويب (DOM)",
+                        content: "من خلال نموذج كائن المستند (DOM)، تستطيع جافاسكريبت قراءة، تعديل، أو حذف أي عنصر داخل صفحة الويب والتفاعل الفوري مع نقرات المستخدم.",
+                        code: "document.getElementById('myBtn').addEventListener('click', function() {\n  alert('تم النقر على الزر بنجاح!');\n});"
+                    }
                 ]
             }
         };
@@ -86,14 +133,28 @@
             
             const lessonsUl = document.getElementById('lessons-list');
             lessonsUl.innerHTML = course.lessons.map((lesson, idx) => `
-                <li style="background: rgba(255,255,255,0.03); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; color: #f8fafc; font-size: 0.95rem;">
-                    <span>✅ ${lesson}</span>
-                    <span style="font-size: 0.8rem; background: rgba(99,102,241,0.2); color: #818cf8; padding: 3px 8px; border-radius: 4px; white-space: nowrap;">درس ${idx + 1}</span>
+                <li onclick="openLessonModal(${idx})" style="background: rgba(255,255,255,0.03); padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; color: #f8fafc; font-size: 0.95rem; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(99,102,241,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+                    <span style="font-weight: 500;">📖 ${lesson.title}</span>
+                    <span style="font-size: 0.8rem; background: rgba(99,102,241,0.25); color: #a855f7; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-weight: bold;">فتح الدرس 🚀</span>
                 </li>
             `).join('');
         } else {
             document.getElementById('c-title').innerText = "عذراً، المسار غير موجود";
             document.getElementById('c-desc').innerText = "يرجى العودة إلى صفحة المسارات واختيار مسار صحيح.";
+        }
+
+        function openLessonModal(index) {
+            const lesson = course.lessons[index];
+            if(lesson) {
+                document.getElementById('modal-lesson-title').innerText = lesson.title;
+                document.getElementById('modal-lesson-content').innerText = lesson.content;
+                document.getElementById('modal-lesson-code').innerText = lesson.code;
+                document.getElementById('lesson-modal').style.display = 'flex';
+            }
+        }
+
+        function closeLessonModal() {
+            document.getElementById('lesson-modal').style.display = 'none';
         }
     </script>
 </body>
