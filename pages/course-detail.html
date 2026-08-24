@@ -25,16 +25,14 @@
             
             <div style="background: rgba(15, 23, 42, 0.8); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
                 <h3 style="margin-bottom: 15px; color: #f8fafc;">محتويات المنهج والدروس:</h3>
-                <ul style="padding-right: 20px; color: #94a3b8; display: flex; flex-direction: column; gap: 10px;">
-                    <li>الدرس الأول: مقدمة شاملة وأساسيات بناء البيئة البرمجية</li>
-                    <li>الدرس الثاني: التطبيق العملي وكتابة الأكواد الأولى</li>
-                    <li>الدرس الثالث: تنفيذ مشروع مصغر واختبار المهارات</li>
+                <ul id="lessons-list" style="padding-right: 20px; color: #94a3b8; display: flex; flex-direction: column; gap: 10px;">
+                    <!-- ستظهر الدروس الخاصة بالمسار هنا تلقائياً -->
                 </ul>
             </div>
 
-            <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
-                <a href="playground.html" class="btn btn-primary" style="text-decoration: none; flex: 1; text-align: center; padding: 12px;">الانتقال للمحرر التجريبي 💻</a>
-                <a href="courses.html" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 8px; text-decoration: none; text-align: center;">العودة للمسارات</a>
+            <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 12px;">
+                <a href="playground.html" class="btn btn-primary" style="text-decoration: none; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; background: linear-gradient(135deg, #6366f1, #a855f7); color: white;">الانتقال للمحرر التجريبي 💻</a>
+                <a href="courses.html" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; text-decoration: none; text-align: center; font-weight: bold;">العودة للمسارات</a>
             </div>
         </div>
     </main>
@@ -50,6 +48,12 @@
                 document.getElementById('c-title').innerText = course.icon + " " + course.title;
                 document.getElementById('c-desc').innerText = course.description;
                 document.title = course.title + " | WebCraft Academy";
+                
+                // جلب وعرض الدروس المخصصة لهذا المسار حصرياً
+                const lessonsUl = document.getElementById('lessons-list');
+                if(lessonsUl && course.lessons) {
+                    lessonsUl.innerHTML = course.lessons.map(lesson => `<li>${lesson}</li>`).join('');
+                }
             } else {
                 document.getElementById('c-title').innerText = "عذراً، المسار غير موجود";
                 document.getElementById('c-desc').innerText = "يرجى العودة إلى صفحة المسارات واختيار مسار صحيح.";
