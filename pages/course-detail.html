@@ -18,46 +18,82 @@
         </div>
     </header>
 
-    <main class="container" style="padding-top: 140px; padding-bottom: 60px;">
+    <main class="container" style="padding-top: 140px; padding-bottom: 60px; max-width: 800px; margin: 0 auto;">
         <div class="glass-card" style="padding: 30px;">
-            <h2 id="c-title" style="color: var(--accent); margin-bottom: 15px;">جاري تحميل المسار...</h2>
-            <p id="c-desc" style="color: var(--text-secondary); margin-bottom: 25px; font-size: 1.1rem;"></p>
+            <h2 id="c-title" style="color: var(--accent); margin-bottom: 15px; font-size: 1.8rem;">جاري تحميل المسار...</h2>
+            <p id="c-desc" style="color: var(--text-secondary); margin-bottom: 25px; font-size: 1.05rem;"></p>
             
-            <div style="background: rgba(15, 23, 42, 0.8); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                <h3 style="margin-bottom: 15px; color: #f8fafc;">محتويات المنهج والدروس:</h3>
-                <ul id="lessons-list" style="padding-right: 20px; color: #94a3b8; display: flex; flex-direction: column; gap: 10px;">
-                    <!-- ستظهر الدروس الخاصة بالمسار هنا تلقائياً -->
+            <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                <h3 style="margin-bottom: 15px; color: #f8fafc; font-size: 1.2rem;">📚 محتويات المنهج والدروس:</h3>
+                <ul id="lessons-list" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;">
+                    <!-- ستظهر الدروس هنا بتصميم احترافي -->
                 </ul>
             </div>
 
             <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 12px;">
-                <a href="playground.html" class="btn btn-primary" style="text-decoration: none; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; background: linear-gradient(135deg, #6366f1, #a855f7); color: white;">الانتقال للمحرر التجريبي 💻</a>
+                <a href="playground.html" class="btn btn-primary" style="text-decoration: none; text-align: center; padding: 14px; border-radius: 8px; font-weight: bold; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; font-size: 1rem;">الانتقال للمحرر التجريبي 💻</a>
                 <a href="courses.html" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; text-decoration: none; text-align: center; font-weight: bold;">العودة للمسارات</a>
             </div>
         </div>
     </main>
 
-    <script src="../data/courses.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const courseId = urlParams.get('id');
-        
-        if(typeof COURSES_DATA !== 'undefined') {
-            const course = COURSES_DATA.find(c => c.id === courseId);
-            if(course) {
-                document.getElementById('c-title').innerText = course.icon + " " + course.title;
-                document.getElementById('c-desc').innerText = course.description;
-                document.title = course.title + " | WebCraft Academy";
-                
-                // جلب وعرض الدروس المخصصة لهذا المسار حصرياً
-                const lessonsUl = document.getElementById('lessons-list');
-                if(lessonsUl && course.lessons) {
-                    lessonsUl.innerHTML = course.lessons.map(lesson => `<li>${lesson}</li>`).join('');
-                }
-            } else {
-                document.getElementById('c-title').innerText = "عذراً، المسار غير موجود";
-                document.getElementById('c-desc').innerText = "يرجى العودة إلى صفحة المسارات واختيار مسار صحيح.";
+        // قاعدة بيانات داخلية متكاملة لضمان سرعة التحميل وعدم فشل جلب البيانات
+        const COURSES_DATABASE = {
+            "html": {
+                title: "أساسيات HTML5",
+                icon: "🧱",
+                level: "مبتدئ",
+                description: "تعلم هيكلة صفحات الويب وكتابة العناصر الأساسية بطريقة احترافية.",
+                lessons: [
+                    "الدرس الأول: مقدمة إلى الويب وهيكل لغة HTML وطريقة عمل المتصفح",
+                    "الدرس الثاني: الوسوم الأساسية، النصوص، العناوين، والروابط التشعبية",
+                    "الدرس الثالث: الجداول، النماذج (Forms)، وبناء أول صفحة ويب متكاملة"
+                ]
+            },
+            "css": {
+                title: "تنسيق المواقع CSS3",
+                icon: "🎨",
+                level: "مبتدئ",
+                description: "أتقن توزيع العناصر، الألوان، والتصميم المتجاوب لجميع الشاشات.",
+                lessons: [
+                    "الدرس الأول: مدخل إلى CSS، المحدِّدات (Selectors)، وطرق ربطها",
+                    "الدرس الثاني: الألوان، الخطوط، وتنسيق الصناديق (Box Model)",
+                    "الدرس الثالث: نظام التوزيع الحديث Flexbox وتصميم الشاشات المتجاوبة"
+                ]
+            },
+            "js": {
+                title: "جافاسكريبت Vanilla JS",
+                icon: "⚡",
+                level: "متوسط",
+                description: "اجعل موقعك تفاعلياً وتحكم في عناصر الصفحة بالكامل عبر البرمجة.",
+                lessons: [
+                    "الدرس الأول: المتغيرات، أنواع البيانات، وطرق طباعة المخرجات",
+                    "الدرس الثاني: الدوال (Functions)، الشروط (If/Else)، والتكرار",
+                    "الدرس الثالث: التعامل مع المستند (DOM) والاستجابة لأحداث المستخدم"
+                ]
             }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('id') || 'html';
+        const course = COURSES_DATABASE[courseId];
+
+        if(course) {
+            document.getElementById('c-title').innerText = course.icon + " " + course.title;
+            document.getElementById('c-desc').innerText = course.description;
+            document.title = course.title + " | WebCraft Academy";
+            
+            const lessonsUl = document.getElementById('lessons-list');
+            lessonsUl.innerHTML = course.lessons.map((lesson, idx) => `
+                <li style="background: rgba(255,255,255,0.03); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; color: #f8fafc; font-size: 0.95rem;">
+                    <span>✅ ${lesson}</span>
+                    <span style="font-size: 0.8rem; background: rgba(99,102,241,0.2); color: #818cf8; padding: 3px 8px; border-radius: 4px; white-space: nowrap;">درس ${idx + 1}</span>
+                </li>
+            `).join('');
+        } else {
+            document.getElementById('c-title').innerText = "عذراً، المسار غير موجود";
+            document.getElementById('c-desc').innerText = "يرجى العودة إلى صفحة المسارات واختيار مسار صحيح.";
         }
     </script>
 </body>
