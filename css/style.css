@@ -1,31 +1,71 @@
-/* إعدادات الوضع النهاري (Light Mode) */
+/* ==========================================
+   إصلاح وتحديث الوضع النهاري (Light Mode)
+   ========================================== */
 body[data-theme="light"] {
-    --bg-color: #f8fafc;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --card-bg: #ffffff;
-    --border-color: rgba(0, 0, 0, 0.1);
-    background-color: var(--bg-color);
-    color: var(--text-primary);
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
 }
 
-body[data-theme="light"] .glass, 
-body[data-theme="light"] .glass-card {
-    background: rgba(255, 255, 255, 0.85) !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-body[data-theme="light"] header.navbar {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body[data-theme="light"] a, 
-body[data-theme="light"] span, 
-body[data-theme="light"] p, 
+/* ضبط ألوان العناوين والنصوص في الثيم الفاتح */
 body[data-theme="light"] h1, 
 body[data-theme="light"] h2, 
-body[data-theme="light"] h3 {
-    color: inherit;
+body[data-theme="light"] h3, 
+body[data-theme="light"] p, 
+body[data-theme="light"] span, 
+body[data-theme="light"] li {
+    color: #0f172a;
+}
+
+/* استثناء النصوص الفرعية الباهتة أو الملونة لتبقى واضحة */
+body[data-theme="light"] .gradient-text {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* تنسيق الكروت الزجاجية في الوضع الفاتح */
+body[data-theme="light"] .glass, 
+body[data-theme="light"] .glass-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    color: #0f172a !important;
+}
+
+/* شريط التنقل العلوي في الوضع الفاتح */
+body[data-theme="light"] header.navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+body[data-theme="light"] header.navbar a,
+body[data-theme="light"] .nav-links a {
+    color: #0f172a !important;
+}
+
+body[data-theme="light"] header.navbar a:hover {
+    color: #6366f1 !important;
+}
+
+/* ==========================================
+   إصلاح تخطيط الموبايل (Responsive Fix)
+   ========================================== */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column !important;
+        gap: 12px !important;
+        padding: 10px 15px !important;
+        text-align: center;
+    }
+    
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    main.container {
+        padding-top: 160px !important; /* لضمان عدم تداخل المحتوى مع الناف بار العلوي */
+    }
 }
