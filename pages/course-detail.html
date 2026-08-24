@@ -41,14 +41,13 @@
     <div id="lesson-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 15px;">
         <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); position: relative; max-height: 90vh; overflow-y: auto; text-align: right; direction: rtl;">
             
-            <!-- زر الإغلاق في الزاوية اليمنى العليا للوحة العربية -->
             <button onclick="closeLessonModal()" style="position: absolute; top: 15px; left: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
             
             <h3 id="modal-lesson-title" style="color: var(--accent); margin-bottom: 20px; font-size: 1.35rem; padding-left: 40px; line-height: 1.5;"></h3>
             
             <div style="margin-bottom: 20px;">
                 <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1rem;">📖 شرح الدرس المفصل:</h4>
-                <p id="modal-lesson-content" style="color: #cbd5e1; font-size: 1rem; line-height: 1.9;"></p>
+                <div id="modal-lesson-content" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.9;"></div>
             </div>
 
             <div style="background: #020617; padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px;">
@@ -56,7 +55,6 @@
                     <span style="color: #94a3b8; font-size: 0.85rem;">💻 الكود والتطبيق العملي:</span>
                     <span style="background: #1e293b; color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">مثال قياسي</span>
                 </div>
-                <!-- منطقة الكود بتنسيق LTR دقيق لسهولة قراءة الشفرة -->
                 <pre style="direction: ltr; text-align: left; background: #090d16; padding: 14px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; margin: 0; line-height: 1.6;"><code id="modal-lesson-code"></code></pre>
             </div>
 
@@ -65,7 +63,6 @@
     </div>
 
     <script>
-        // قاعدة بيانات احترافية ومفصلة لكل مسار
         const COURSES_DATABASE = {
             "html": {
                 title: "أساسيات HTML5",
@@ -74,18 +71,30 @@
                 lessons: [
                     {
                         title: "الدرس الأول: مقدمة إلى الويب وهيكل لغة HTML",
-                        content: "لغة HTML (اختصاراً لـ HyperText Markup Language) هي حجر الأساس لأي صفحة وب. تُستخدم لوصف هيكل الصفحة عبر عناصر ومكونات تُحاط بوسوم (Tags). تبدأ أي صفحة سليمة بإعلان نوع المستند <!DOCTYPE html> يليه وسم <html> الأساسي.",
-                        code: "<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"UTF-8\">\n    <title>موقعي الأول</title>\n  </head>\n  <body>\n    <h1>أهلاً بك في عالم برمجة الويب</h1>\n  </body>\n</html>"
+                        content: `لغة <strong>HTML</strong> (اختصاراً لـ HyperText Markup Language) هي حجر الأساس الذي يُبنى عليه أي موقع إلكتروني. تخيلها كالهيكل العظمي للموقع، بدونها لا يمكن للمتصفح أن يفهم ما يجب عرضه.<br><br>
+                        <strong>مكونات الهيكل الأساسي:</strong><br>
+                        • <strong>إعلان المستند (DOCTYPE):</strong> يخبر المتصفح أننا نستخدم أحدث معايير HTML5.<br>
+                        • <strong>الرأس (Head):</strong> منطقة مخصصة للإعدادات المخفية، مثل عنوان الصفحة الذي يظهر في شريط المتصفح العلوي، والكلمات المفتاحية لمحركات البحث.<br>
+                        • <strong>الجسم (Body):</strong> هذا هو الجزء الأهم! كل ما تكتبه هنا (نصوص، صور، فيديوهات) هو ما سيراه المستخدم النهائي على الشاشة.`,
+                        code: "<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"UTF-8\">\n    <title>موقعي الأول</title>\n  </head>\n  <body>\n    <h1>أهلاً بك في عالم برمجة الويب</h1>\n    <p>هذا هو النص الذي سيظهر للمستخدم.</p>\n  </body>\n</html>"
                     },
                     {
                         title: "الدرس الثاني: الوسوم الأساسية، النصوص، والروابط",
-                        content: "في هذا الدرس نتعرف على كيفية بناء المحتوى النصي. تستخدم وسوم العناوين من <h1> إلى <h6> لتدرج العناوين، والوسم <p> لكتابة الفقرات، بينما يتيح الوسم <a> مع خاصية href ربط صفحتك بالمواقع الخارجية.",
-                        code: "<h1>عنوان رئيسي بارز</h1>\n<p>هذه فقرة نصية توضح محتوى الدرس بشكل مبسط.</p>\n<a href=\"https://github.com\" target=\"_blank\">انقر هنا لزيارة موقع قيت هب</a>"
+                        content: `بعد أن عرفنا الهيكل الأساسي، نحتاج لتعلم كيفية إضافة المحتوى. HTML تعتمد على ما يسمى بـ <strong>الوسوم (Tags)</strong> لتمييز أنواع المحتوى المختلفة.<br><br>
+                        <strong>أهم الوسوم النصية:</strong><br>
+                        • <strong>العناوين (Headings):</strong> تبدأ من <code>H1</code> (الأكبر والأهم) وتتدرج حتى <code>H6</code> (الأصغر). استخدامها بشكل صحيح يفيد في تحسين محركات البحث (SEO).<br>
+                        • <strong>الفقرات (Paragraphs):</strong> تُستخدم لكتابة النصوص الطويلة عبر الوسم <code>p</code>.<br>
+                        • <strong>الروابط (Links):</strong> لربط صفحتك بصفحات أخرى، نستخدم الوسم <code>a</code>. الخاصية <code>href</code> تحدد الرابط الذي سينتقل إليه المستخدم عند النقر.`,
+                        code: "<h1>عنوان رئيسي للمقالة</h1>\n<h2>عنوان فرعي</h2>\n<p>هذه فقرة نصية تشرح التفاصيل، يمكنك كتابة ما تشاء هنا.</p>\n<a href=\"https://google.com\" target=\"_blank\">انقر هنا للبحث في جوجل</a>"
                     },
                     {
                         title: "الدرس الثالث: الجداول، النماذج (Forms)، وبناء أول صفحة",
-                        content: "التفاعل الحقيقي يبدأ من النماذج (Forms) والتي تمكن المستخدمين من إدخال بياناتهم مثل أسماء المستخدمين وكلمات المرور عبر حقول <input> وأزرار الإرسال <button>.",
-                        code: "<form>\n  <label>اسم المستخدم:</label><br>\n  <input type=\"text\" placeholder=\"أدخل اسمك هنا\"><br><br>\n  <button type=\"submit\">إرسال البيانات</button>\n</form>"
+                        content: `التفاعل مع المستخدمين هو ما يجعل الويب حياً! <strong>النماذج (Forms)</strong> هي الطريقة الأساسية لاستقبال البيانات من الزوار، مثل تسجيل الدخول أو إرسال الرسائل.<br><br>
+                        <strong>عناصر النموذج:</strong><br>
+                        • <strong>حقل الإدخال (Input):</strong> يتيح للمستخدم كتابة نصوص، أو إدخال كلمات مرور، أو بريد إلكتروني بناءً على نوعه (type).<br>
+                        • <strong>التسمية التوضيحية (Label):</strong> تربط نصاً معيناً بحقل إدخال لتوضيح المطلوب للمستخدم.<br>
+                        • <strong>الزر (Button):</strong> يُستخدم لإرسال البيانات التي قام المستخدم بتعبئتها إلى الخادم (Server).`,
+                        code: "<form>\n  <label>الاسم الكامل:</label><br>\n  <input type=\"text\" placeholder=\"اكتب اسمك هنا\"><br><br>\n  <label>الرقم السري:</label><br>\n  <input type=\"password\"><br><br>\n  <button type=\"submit\">تسجيل الدخول</button>\n</form>"
                     }
                 ]
             },
@@ -96,18 +105,30 @@
                 lessons: [
                     {
                         title: "الدرس الأول: مدخل إلى CSS وطرق ربطها",
-                        content: "تمنح لغة CSS الأسلوب والجمال لعناصر HTML. يتم كتابة القواعد عبر تحديد العنصر (Selector) ثم تطبيق الخصائص والأقواس المعقوفة. يتم ربط الملف الخارجي عبر وسم <link> داخل الـ head.",
-                        code: "body {\n  background-color: #0f172a;\n  color: #f8fafc;\n  font-family: 'Segoe UI', Tahoma, sans-serif;\n}"
+                        content: `إذا كانت HTML هي الهيكل العظمي، فإن <strong>CSS</strong> (Cascading Style Sheets) هي الملابس والجماليات. باستخدام CSS، يمكنك تغيير الألوان، الخطوط، أحجام العناصر، وحتى إضافة حركات (Animations).<br><br>
+                        <strong>كيف تعمل CSS؟</strong><br>
+                        تعتمد على تحديد العنصر الذي تريد تنسيقه (Selector)، ثم فتح أقواس معقوفة <code>{}</code> وكتابة خصائص التصميم بداخلها. من أفضل الممارسات البرمجية أن يتم كتابة أكواد CSS في ملف خارجي منفصل، ثم ربطها بملف الـ HTML باستخدام الوسم <code>link</code> داخل قسم الـ Head لضمان سرعة وترتيب الكود.`,
+                        code: "/* هذا كود CSS لتنسيق كامل الصفحة */\nbody {\n  background-color: #0f172a;\n  color: #f8fafc;\n  font-family: 'Segoe UI', Tahoma, sans-serif;\n  line-height: 1.6;\n}"
                     },
                     {
                         title: "الدرس الثاني: الألوان، الخطوط، وتنسيق الصناديق",
-                        content: "مفهوم نموذج الصندوق (Box Model) هو الأساس في تصميم الواجهات؛ حيث يحيط بكل عنصر حشو داخلي (Padding)، وإطار (Border)، وهامش خارجي (Margin) لتنظيم المسافات.",
-                        code: ".card-box {\n  padding: 20px;\n  border: 1px solid rgba(255,255,255,0.1);\n  background: rgba(255,255,255,0.05);\n  border-radius: 12px;\n}"
+                        content: `من أهم المفاهيم في تصميم الويب هو <strong>نموذج الصندوق (Box Model)</strong>. المتصفح يعتبر كل عنصر في الصفحة وكأنه صندوق مستطيل.<br><br>
+                        <strong>مكونات الصندوق:</strong><br>
+                        • <strong>المحتوى (Content):</strong> النص أو الصورة في قلب العنصر.<br>
+                        • <strong>الحشو الداخلي (Padding):</strong> المساحة الفارغة بين المحتوى وإطار العنصر (مفيد لإعطاء مساحة تنفس للنص).<br>
+                        • <strong>الإطار (Border):</strong> الخط الذي يحيط بالعنصر.<br>
+                        • <strong>الهامش الخارجي (Margin):</strong> المسافة التي تفصل هذا العنصر عن العناصر الأخرى المجاورة له.`,
+                        code: ".card-box {\n  /* الحشو الداخلي */\n  padding: 20px;\n  /* الهامش الخارجي */\n  margin-bottom: 15px;\n  /* الإطار واللون */\n  border: 1px solid #334155;\n  background-color: #1e293b;\n  /* تدوير الزوايا */\n  border-radius: 12px;\n}"
                     },
                     {
                         title: "الدرس الثالث: نظام التوزيع الحديث Flexbox",
-                        content: "يُعتبر Flexbox الثورة الحديثة في توزيع العناصر بمرونة فائقة داخل الحاويات، مما يتيح محاذاة العناصر أفقياً أو عمودياً وضمان تجاوبها التام مع مختلف أحجام الهواتف.",
-                        code: ".flex-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}"
+                        content: `قديماً، كان ترتيب العناصر بجوار بعضها أمراً معقداً. أما اليوم، فلدينا <strong>Flexbox</strong>، وهو نظام قوي جداً ومرن لترتيب العناصر داخل الحاويات.<br><br>
+                        <strong>أهم خصائص الفليكس:</strong><br>
+                        • بمجرد إعطاء الحاوية خاصية <code>display: flex;</code>، تصبح العناصر بداخلها مرنة وتصطف أفقياً افتراضياً.<br>
+                        • <strong>justify-content:</strong> تتحكم في توزيع العناصر على المحور الأفقي (مثل وضع مسافات متساوية بينها).<br>
+                        • <strong>align-items:</strong> تتحكم في محاذاة العناصر على المحور العمودي (مثل توسيطها في المنتصف).<br>
+                        هذا النظام أساسي جداً لجعل موقعك متجاوباً مع شاشات الهواتف!`,
+                        code: ".flex-container {\n  display: flex;\n  /* توزيع المسافات بالتساوي */\n  justify-content: space-between;\n  /* التوسيط العمودي */\n  align-items: center;\n  gap: 15px; /* مسافة ثابتة بين العناصر */\n}"
                     }
                 ]
             },
@@ -118,18 +139,27 @@
                 lessons: [
                     {
                         title: "الدرس الأول: المتغيرات وأنواع البيانات",
-                        content: "المتغيرات هي الحاويات التي نحفظ فيها القيم البرمجية. نستخدم let للقيم المتغيرة و const للثوابت. تتيح لنا جافاسكريبت التعامل مع النصوص، الأرقام، والمصفوفات.",
-                        code: "const studentName = 'التهامي';\nlet studentAge = 23;\nconsole.log('مرحباً بك يا ' + studentName);"
+                        content: `لغة <strong>JavaScript</strong> هي ما يمنح موقعك الذكاء والتفاعل (مثل الأزرار التي تقوم بعمليات حسابية، أو القوائم المنسدلة).<br><br>
+                        <strong>المتغيرات (Variables):</strong><br>
+                        تخيل المتغير كصندوق تخزن فيه بيانات لاستخدامها لاحقاً. نستخدم الكلمة <code>let</code> إذا كانت القيمة قد تتغير مستقبلاً، ونستخدم <code>const</code> للقيم الثابتة التي لن تتغير.<br>
+                        البيانات يمكن أن تكون <strong>نصوصاً (Strings)</strong> توضع بين علامتي تنصيص، أو <strong>أرقاماً (Numbers)</strong> تستخدم في العمليات الحسابية، أو <strong>قيماً منطقية (Booleans)</strong> مثل (صح / خطأ).`,
+                        code: "// تعريف الثوابت والمتغيرات\nconst studentName = 'التهامي';\nlet studentAge = 23;\n\n// تحديث قيمة المتغير\nstudentAge = 24;\n\n// طباعة النتيجة في سطر الأوامر (Console)\nconsole.log('مرحباً بك يا ' + studentName + '، عمرك الآن ' + studentAge);"
                     },
                     {
                         title: "الدرس الثاني: الدوال والشروط البرمجية",
-                        content: "الدوال (Functions) هي كتل برمجية تؤدي مهمة محددة عند استدعائها، بينما الجمل الشرطية (if/else) تمنح التطبيق القدرة على اتخاذ القرارات بناءً على القيم المدخلة.",
-                        code: "function checkScore(score) {\n  if (score >= 50) {\n    return 'ناجح وممتاز';\n  } else {\n    return 'يحتاج إلى تحسين';\n  }\n}"
+                        content: `البرمجة تعتمد بشكل كبير على اتخاذ القرارات وتنظيم الأكواد.<br><br>
+                        <strong>الدوال (Functions):</strong> هي مجموعة من الأوامر نجمعها تحت اسم واحد، بحيث يمكننا استدعاؤها وتنفيذها في أي وقت دون الحاجة لإعادة كتابة الكود.<br><br>
+                        <strong>الشروط (If/Else Statements):</strong> هي العقل المفكر للتطبيق. تتيح لك فحص حالة معينة (مثلاً: هل عمر المستخدم أكبر من 18؟)، وإذا تحقق الشرط، يُنفذ كود معين، وإذا لم يتحقق، يُنفذ كود آخر.`,
+                        code: "// بناء دالة للتحقق من النتيجة\nfunction checkScore(score) {\n  if (score >= 50) {\n    return 'ألف مبروك، أنت ناجح!';\n  } else {\n    return 'عذراً، تحتاج للمحاولة مرة أخرى.';\n  }\n}\n\n// استخدام الدالة\nlet finalResult = checkScore(75);\nconsole.log(finalResult);"
                     },
                     {
                         title: "الدرس الثالث: التفاعل مع المستند (DOM)",
-                        content: "نموذج كائن المستند (DOM) هو الجسر الذي تربط به جافاسكريبت عناصر الصفحة، مما يسمح بالاستجابة لنقرات المستخدم وتغيير النصوص أو الألوان ديناميكياً.",
-                        code: "document.getElementById('myBtn').addEventListener('click', function() {\n  alert('تم تنفيذ الحدث بنجاح!');\n});"
+                        content: `أهم ميزة لجافاسكريبت في الويب هي قدرتها على التحكم بصفحة HTML، وهذا يتم عبر ما يسمى بـ <strong>DOM (Document Object Model)</strong>.<br><br>
+                        <strong>كيفية التفاعل:</strong><br>
+                        1. <strong>تحديد العنصر:</strong> نطلب من جافاسكريبت البحث عن عنصر معين في الصفحة باستخدام هويته (ID) عبر أمر <code>getElementById</code>.<br>
+                        2. <strong>الاستماع للأحداث:</strong> نضيف "مستمع" (Event Listener) يراقب متى يقوم المستخدم بإجراء معين، مثل النقر (click) أو تمرير الماوس.<br>
+                        3. <strong>التنفيذ:</strong> بمجرد حدوث النقر، نأمر جافاسكريبت بتغيير لون الزر، أو إظهار رسالة منبثقة، أو جلب بيانات جديدة.`,
+                        code: "// تخيل أن لدينا زر في HTML يحمل الآي دي 'myBtn'\nconst button = document.getElementById('myBtn');\n\n// إضافة مراقب للأحداث ينتظر نقرة المستخدم\nbutton.addEventListener('click', function() {\n  // الكود الذي سينفذ عند النقر\n  alert('مرحباً بك في عالم البرمجة التفاعلية!');\n  button.style.backgroundColor = '#6366f1';\n});"
                     }
                 ]
             }
@@ -148,7 +178,7 @@
             lessonsUl.innerHTML = course.lessons.map((lesson, idx) => `
                 <li onclick="openLessonModal(${idx})" style="background: rgba(255,255,255,0.03); padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; color: #f8fafc; font-size: 0.95rem; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(99,102,241,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
                     <span style="font-weight: 500;">📖 ${lesson.title}</span>
-                    <span style="font-size: 0.8rem; background: rgba(99,102,241,0.25); color: #a855f7; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-weight: bold;">استعراض 🚀</span>
+                    <span style="font-size: 0.8rem; background: rgba(99,102,241,0.25); color: #a855f7; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-weight: bold;">اقرأ الدرس 🚀</span>
                 </li>
             `).join('');
         } else {
@@ -160,14 +190,17 @@
             const lesson = course.lessons[index];
             if(lesson) {
                 document.getElementById('modal-lesson-title').innerText = lesson.title;
-                document.getElementById('modal-lesson-content').innerText = lesson.content;
+                
+                // استخدمنا innerHTML بدلاً من innerText لكي يقبل التنسيقات والفقرات
+                document.getElementById('modal-lesson-content').innerHTML = lesson.content;
+                
                 document.getElementById('modal-lesson-code').innerText = lesson.code;
                 document.getElementById('lesson-modal').style.display = 'flex';
             }
         }
 
         function closeLessonModal() {
-            document.getElementById('lesson-modal').style.display, document.getElementById('lesson-modal').style.display = 'none';
+            document.getElementById('lesson-modal').style.display = 'none';
         }
     </script>
 </body>
