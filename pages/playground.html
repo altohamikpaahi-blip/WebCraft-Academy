@@ -3,48 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محرر الأكواد الحي | WebCraft Academy</title>
+    <title>المحرر التجريبي | WebCraft Academy</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        .playground { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 75vh; margin-top: 100px; padding: 0 20px; }
-        .editors { display: flex; flex-direction: column; gap: 10px; height: 100%; }
-        textarea { width: 100%; height: 33%; background: #0f172a; color: #f8fafc; border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 8px; font-family: monospace; resize: none; outline: none; }
-        iframe { width: 100%; height: 100%; background: white; border-radius: 8px; border: none; }
-        @media(max-width: 768px) { .playground { grid-template-columns: 1fr; height: auto; } textarea { height: 180px; } iframe { height: 300px; } }
+        /* تخصيص صناديق كتابة الكود لتكون LTR لضبط كتابة الأكواد البرمجية بدقة */
+        .code-input {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Courier New', Courier, monospace;
+            background: #090d16;
+            color: #38bdf8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            height: 120px;
+            resize: vertical;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .code-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
     </style>
 </head>
 <body data-theme="dark">
-    <header class="navbar glass">
+    <header class="navbar glass" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;">
         <div class="nav-container" style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
             <a href="../index.html" class="logo"><span class="gradient-text">WebCraft</span> Academy 🚀</a>
-            <a href="../index.html" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.9rem;">الرئيسية</a>
+            <nav class="nav-links">
+                <a href="../index.html">الرئيسية</a>
+                <a href="courses.html">التعلم</a>
+                <a href="playground.html" style="color: var(--accent);">المحرر</a>
+            </nav>
         </div>
     </header>
 
-    <div class="playground">
-        <div class="editors">
-            <textarea id="html-code" placeholder="HTML Code..." oninput="runCode()"><h1>مرحباً بك في محرّر WebCraft 💻</h1></textarea>
-            <textarea id="css-code" placeholder="CSS Code..." oninput="runCode()">h1 { color: #6366f1; text-align: center; margin-top: 40px; font-family: sans-serif; }</textarea>
-            <textarea id="js-code" placeholder="JavaScript Code..." oninput="runCode()"></textarea>
+    <main class="container" style="padding-top: 110px; padding-bottom: 50px; max-width: 800px; margin: 0 auto;">
+        <div class="glass-card" style="padding: 25px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: var(--accent); font-size: 1.5rem; margin: 0;">💻 المححر البرمجي المباشر</h2>
+                <button onclick="runCode()" class="btn btn-primary" style="background: linear-gradient(135deg, #6366f1, #a855f7); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem;">تشغيل الكود ⚡</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+                <!-- HTML Editor -->
+                <div>
+                    <label style="display: block; color: #f8fafc; margin-bottom: 6px; font-size: 0.9rem; text-align: right; direction: rtl;">🌐 كود الهيكلة (HTML):</label>
+                    <textarea id="html-code" class="code-input">&lt;h1 style="text-align: center; color: #6366f1;"&gt;أهلاً بك في محرر WebCraft 🚀&lt;/h1&gt;
+&lt;p style="text-align: center; color: #94a3b8;"&gt;جرب تعديل هذا الكود وانقر على زر التشغيل!&lt;/p&gt;</textarea>
+                </div>
+
+                <!-- CSS Editor -->
+                <div>
+                    <label style="display: block; color: #f8fafc; margin-bottom: 6px; font-size: 0.9rem; text-align: right; direction: rtl;">🎨 كود التنسيق (CSS):</label>
+                    <textarea id="css-code" class="code-input">body {
+    background-color: #0f172a;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    padding: 20px;
+}</textarea>
+                </div>
+
+                <!-- JS Editor -->
+                <div>
+                    <label style="display: block; color: #f8fafc; margin-bottom: 6px; font-size: 0.9rem; text-align: right; direction: rtl;">⚡ كود التفاعل (JavaScript):</label>
+                    <textarea id="js-code" class="code-input">// يمكنك كتابة أكواد جافاسكريبت هنا لتجربتها فوراً
+console.log("تم تشغيل المحرر بنجاح!");</textarea>
+                </div>
+            </div>
+
+            <!-- Live Preview Section -->
+            <div style="margin-top: 25px;">
+                <h3 style="color: #f8fafc; font-size: 1.1rem; margin-bottom: 10px; text-align: right; direction: rtl;">👀 المعاينة الحية للنتيجة:</h3>
+                <div style="background: #ffffff; border-radius: 10px; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); height: 250px;">
+                    <iframe id="preview-frame" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center;">
+                <a href="courses.html" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">العودة للمسارات التعليمية</a>
+            </div>
         </div>
-        <div style="background: rgba(19, 28, 49, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px; display: flex; flex-direction: column;">
-            <span style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">المعاينة الحية:</span>
-            <iframe id="preview-frame"></iframe>
-        </div>
-    </div>
+    </main>
 
     <script>
         function runCode() {
             const html = document.getElementById('html-code').value;
-            const css = '<style>' + document.getElementById('css-code').value + '</style>';
-            const js = '<script>' + document.getElementById('js-code').value + '<\/script>';
-            const frame = document.getElementById('preview-frame');
-            const doc = frame.contentDocument || frame.contentWindow.document;
-            doc.open();
-            doc.write(html + css + js);
-            doc.close();
+            const css = "<style>" + document.getElementById('css-code').value + "</style>";
+            const js = "<script>" + document.getElementById('js-code').value + "<" + "/script>";
+            
+            const previewFrame = document.getElementById('preview-frame');
+            const frameDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            
+            frameDoc.open();
+            frameDoc.write(html + css + js);
+            frameDoc.close();
         }
-        runCode();
+
+        // تشغيل الكود تلقائياً عند فتح الصفحة لأول مرة
+        window.onload = runCode;
     </script>
 </body>
 </html>
