@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل المسار | WebCraft Academy</title>
+    <title>تفاصيل المسار والاختبار | WebCraft Academy</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body data-theme="dark">
@@ -34,45 +34,50 @@
                 </div>
             </div>
 
-            <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+            <!-- قائمة الدروس -->
+            <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 30px;">
                 <h3 style="margin-bottom: 15px; color: #f8fafc; font-size: 1.2rem;">📚 محتويات المنهج والشروحات:</h3>
                 <ul id="lessons-list" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;">
-                    <!-- ستظهر الدروس هنا ديناميكياً -->
+                    <!-- الدروس تظهر ديناميكياً -->
                 </ul>
             </div>
 
+            <!-- قسم الاختبار القصير (Quiz Section) -->
+            <div style="background: rgba(99, 102, 241, 0.05); padding: 22px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                <h3 style="color: var(--accent); margin-bottom: 10px; font-size: 1.3rem;">🎯 اختبار قصير لاختبار فهمك:</h3>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">أجب على الأسئلة التالية لتتأكد من استيعابك للمنهج:</p>
+                
+                <div id="quiz-container" style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- الأسئلة تظهر هنا ديناميكياً -->
+                </div>
+
+                <button onclick="submitQuiz()" class="btn btn-primary" style="margin-top: 20px; width: 100%; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;">تصحيح الإجابات ⚡</button>
+                
+                <div id="quiz-result" style="margin-top: 15px; text-align: center; font-weight: bold; font-size: 1.1rem; display: none;"></div>
+            </div>
+
             <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 12px;">
-                <a href="playground.html" class="btn btn-primary" style="text-decoration: none; text-align: center; padding: 14px; border-radius: 8px; font-weight: bold; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; font-size: 1rem;">الانتقال للمحرر التجريبي 💻</a>
-                <a href="courses.html" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; text-decoration: none; text-align: center; font-weight: bold;">العودة للمسارات</a>
+                <a href="playground.html" class="btn btn-primary" style="text-decoration: none; text-align: center; padding: 14px; border-radius: 8px; font-weight: bold; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 1rem;">الانتقال للمحرر التجريبي 💻</a>
+                <a href="courses.html" style="background: rgba(255,255,255,0.03); color: white; border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 8px; text-decoration: none; text-align: center; font-weight: bold;">العودة للمسارات</a>
             </div>
         </div>
     </main>
 
-    <!-- النافذة المنبثقة لعرض الدرس -->
+    <!-- نافذة الدرس المنبثقة -->
     <div id="lesson-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 15px;">
         <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); position: relative; max-height: 90vh; overflow-y: auto; text-align: right; direction: rtl;">
-            
             <button onclick="closeLessonModal()" style="position: absolute; top: 15px; left: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
-            
             <h3 id="modal-lesson-title" style="color: var(--accent); margin-bottom: 20px; font-size: 1.35rem; padding-left: 40px; line-height: 1.5;"></h3>
-            
             <div style="margin-bottom: 20px;">
                 <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1rem;">📖 شرح الدرس المفصل:</h4>
                 <div id="modal-lesson-content" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.9;"></div>
             </div>
-
             <div style="background: #020617; padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="color: #94a3b8; font-size: 0.85rem;">💻 الكود والتطبيق العملي:</span>
-                    <span style="background: #1e293b; color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">مثال قياسي</span>
-                </div>
-                <pre style="direction: ltr; text-align: left; background: #090d16; padding: 14px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; margin: 0; line-height: 1.6;"><code id="modal-lesson-code"></code></pre>
+                <span style="color: #94a3b8; font-size: 0.85rem; display: block; margin-bottom: 6px;">💻 مثال تطبيقي:</span>
+                <pre style="direction: ltr; text-align: left; background: #090d16; padding: 14px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: monospace; font-size: 0.9rem; margin: 0;"><code id="modal-lesson-code"></code></pre>
             </div>
-
-            <!-- زر إكمال الدرس -->
-            <button id="complete-btn" onclick="toggleLessonComplete()" style="width: 100%; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-bottom: 12px; transition: 0.2s;">تحديد كمكتمل ✅</button>
-            
-            <button onclick="closeLessonModal()" style="width: 100%; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem;">إغلاق والعودة للمنهج</button>
+            <button id="complete-btn" onclick="toggleLessonComplete()" style="width: 100%; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-bottom: 12px;">تحديد كمكتمل ✅</button>
+            <button onclick="closeLessonModal()" style="width: 100%; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">إغلاق والعودة للمنهج</button>
         </div>
     </div>
 
@@ -83,21 +88,13 @@
                 icon: "🧱",
                 description: "تعلم هيكلة صفحات الويب وكتابة العناصر الأساسية بطريقة احترافية.",
                 lessons: [
-                    {
-                        title: "الدرس الأول: مقدمة إلى الويب وهيكل لغة HTML",
-                        content: `لغة <strong>HTML</strong> (اختصاراً لـ HyperText Markup Language) هي حجر الأساس الذي يُبنى عليه أي موقع إلكتروني.<br><br><strong>مكونات الهيكل الأساسي:</strong><br>• <strong>DOCTYPE:</strong> يخبر المتصفح بمعايير HTML5.<br>• <strong>Head:</strong> لإعدادات الصفحة والعنوان.<br>• <strong>Body:</strong> محتوى الصفحة المرئي.`,
-                        code: "<!DOCTYPE html>\n<html>\n  <head>\n    <title>موقعي الأول</title>\n  </head>\n  <body>\n    <h1>أهلاً بك في عالم الويب</h1>\n  </body>\n</html>"
-                    },
-                    {
-                        title: "الدرس الثاني: الوسوم الأساسية، النصوص، والروابط",
-                        content: `نتعلم في هذا الدرس بناء المحتوى عبر العناوين <code>H1-H6</code>، والفقرات <code>p</code>، والروابط <code>a</code> التي تنقل الزائر لصفحات أخرى.`,
-                        code: "<h1>عنوان رئيسي</h1>\n<p>هذه فقرة توضيحية بسيطة.</p>\n<a href=\"https://google.com\">رابط لجوجل</a>"
-                    },
-                    {
-                        title: "الدرس الثالث: الجداول، النماذج (Forms)، وبناء أول صفحة",
-                        content: `النماذج <strong>Forms</strong> تتيح للمستخددمين إدخال البيانات عبر حقول <code>input</code> وأزرار الإرسال <code>button</code>.`,
-                        code: "<form>\n  <label>اسم المستخدم:</label><br>\n  <input type=\"text\" placeholder=\"اكتب اسمك\"><br><br>\n  <button type=\"submit\">دخول</button>\n</form>"
-                    }
+                    { title: "الدرس الأول: مقدمة إلى الويب وهيكل لغة HTML", content: "لغة HTML هي حجر الأساس لبناء صفحات الويب وتحتوي على وسوم الهيكل الأساسي.", code: "<!DOCTYPE html>\n<html>\n  <head><title>صفحتي</title></head>\n  <body><h1>مرحباً</h1></body>\n</html>" },
+                    { title: "الدرس الثاني: الوسوم الأساسية، النصوص، والروابط", content: "تتعلم العناوين H1-H6، الفقرات p، والروابط a.", code: "<h1>عنوان</h1>\n<p>فقرة نصية</p>\n<a href='#'>رابط</a>" },
+                    { title: "الدرس الثالث: الجداول، النماذج (Forms)، وبناء أول صفحة", content: "النماذج تتيح للمستخدمين إدخال البيانات عبر حقول input وأزرار الإرسال.", code: "<form>\n  <input type='text' placeholder='أدخل اسمك'>\n</form>" }
+                ],
+                quiz: [
+                    { q: "ما هو الوسم المسؤول عن إنشاء أكبر عنوان في HTML؟", options: ["<h6>", "<h1>", "<p>", "<br>"], correct: 1 },
+                    { q: "أي وسم يُستخدَم لإنشاء رابط تشعبي؟", options: ["<a>", "<link>", "<href>", "<url>"], correct: 0 }
                 ]
             },
             "css": {
@@ -105,21 +102,13 @@
                 icon: "🎨",
                 description: "أتقن توزيع العناصر، الألوان، والتصميم المتجاوب لجميع الشاشات.",
                 lessons: [
-                    {
-                        title: "الدرس الأول: مدخل إلى CSS وطرق ربطها",
-                        content: `تمنح لغة <strong>CSS</strong> الجماليات والألوان والخطوط لعناصر HTML ويتم ربطها بملف خارجي عبر وسم <code>link</code>.`,
-                        code: "body {\n  background-color: #0f172a;\n  color: #f8fafc;\n  font-family: sans-serif;\n}"
-                    },
-                    {
-                        title: "الدرس الثاني: الألوان، الخطوط، وتنسيق الصناديق",
-                        content: `مفهوم <strong>Box Model</strong> يتكون من المحتوى، الحشو (Padding)، الإطار (Border)، والهامش (Margin).`,
-                        code: ".card {\n  padding: 20px;\n  border: 1px solid #334155;\n  border-radius: 12px;\n}"
-                    },
-                    {
-                        title: "الدرس الثالث: نظام التوزيع الحديث Flexbox",
-                        content: `أداة <strong>Flexbox</strong> ترتب العناصر بمرونة فائقة أفقياً أو عمودياً وتجعل الموقع متجاوباً.`,
-                        code: ".container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}"
-                    }
+                    { title: "الدرس الأول: مدخل إلى CSS وطرق ربطها", content: "تمنح CSS الجماليات والألوان للعناصر ويتم ربطها بملف خارجي عبر link.", code: "body { background-color: #0f172a; color: #fff; }" },
+                    { title: "الدرس الثاني: الألوان، الخطوط، وتنسيق الصناديق", content: "مفهوم Box Model يتكون من المحتوى، الـ Padding، الـ Border، والـ Margin.", code: ".card { padding: 20px; border-radius: 8px; }" },
+                    { title: "الدرس الثالث: نظام التوزيع الحديث Flexbox", content: "أداة Flexbox ترتب العناصر بمرونة فائقة أفقياً أو عمودياً.", code: ".container { display: flex; justify-content: space-between; }" }
+                ],
+                quiz: [
+                    { q: "ما هي الخاصية المسؤولة عن تغيير لون النص في CSS؟", options: ["background-color", "color", "font-size", "text-align"], correct: 1 },
+                    { q: "كيف نجعل العناصر تترتب بمرونة بجانب بعضها عبر Flexbox؟", options: ["display: block;", "display: flex;", "float: left;", "position: absolute;"], correct: 1 }
                 ]
             },
             "js": {
@@ -127,21 +116,13 @@
                 icon: "⚡",
                 description: "اجعل موقعك تفاعلياً وتحكم في عناصر الصفحة بالكامل عبر البرمجة.",
                 lessons: [
-                    {
-                        title: "الدرس الأول: المتغيرات وأنواع البيانات",
-                        content: `المتغيرات تُنشأ بـ <code>let</code> و <code>const</code> لتخزين النصوص والأرقام والبيانات في الذاكرة.`,
-                        code: "const name = 'التهامي';\nlet age = 23;\nconsole.log('مرحباً ' + name);"
-                    },
-                    {
-                        title: "الدرس الثاني: الدوال والشروط البرمجية",
-                        content: `الدوال تنفذ مهاماً محددة، والجمل الشرطية <code>if/else</code> تتخذ القرارات حسب المدخلات.`,
-                        code: "function check(score) {\n  if(score >= 50) return 'ناجح';\n  else return 'راسب';\n}"
-                    },
-                    {
-                        title: "الدرس الثالث: التفاعل مع المستند (DOM)",
-                        content: `عبر <strong>DOM</strong> تستطيع جافاسكريبت قراءة وتعديل عناصر الصفحة والاستجابة لنقرات المستخدم.`,
-                        code: "document.getElementById('btn').addEventListener('click', () => {\n  alert('تم النقر!');\n});"
-                    }
+                    { title: "الدرس الأول: المتغيرات وأنواع البيانات", content: "المتغيرات تُنشأ بـ let و const لتخزين البيانات في الذاكرة.", code: "const name = 'التهامي';\nlet age = 23;" },
+                    { title: "الدرس الثاني: الدوال والشروط البرمجية", content: "الدوال تنفذ مهاماً، والشروط if/else تتخذ القرارات.", code: "if(score >= 50) { console.log('ناجح'); }" },
+                    { title: "الدرس الثالث: التفاعل مع المستند (DOM)", content: "عبر DOM تستطيع جافاسكريبت قراءة وتعديل عناصر الصفحة عند الضغط.", code: "document.getElementById('btn').addEventListener('click', () => {});" }
+                ],
+                quiz: [
+                    { q: "بأي كلمة مفتاحية يتم تعريف متغير ثابت لا يتغير في الجافاسكريبت؟", options: ["var", "let", "const", "static"], correct: 2 },
+                    { q: "ما هي الدالة التي تُستخدم لعطء رسالة تنبيه منبثقة للمستخدم؟", options: ["alert()", "console.log()", "prompt()", "print()"], correct: 0 }
                 ]
             }
         };
@@ -150,7 +131,6 @@
         const courseId = urlParams.get('id') || 'html';
         const course = COURSES_DATABASE[courseId];
 
-        // مفتاح التخزين المحلّي الخاص بهذا المسار
         const storageKey = `webcraft_progress_${courseId}`;
         let completedLessons = JSON.parse(localStorage.getItem(storageKey)) || [];
         let currentActiveIdx = null;
@@ -160,10 +140,8 @@
             document.getElementById('c-desc').innerText = course.description;
             document.title = course.title + " | WebCraft Academy";
             renderLessonsList();
+            renderQuiz();
             updateProgressUI();
-        } else {
-            document.getElementById('c-title').innerText = "عذراً، المسار غير موجود";
-            document.getElementById('c-desc').innerText = "يرجى العودة واختيار مسار صحيح.";
         }
 
         function renderLessonsList() {
@@ -173,34 +151,68 @@
                 return `
                     <li onclick="openLessonModal(${idx})" style="background: rgba(255,255,255,0.03); padding: 14px 18px; border-radius: 10px; border: 1px solid ${isCompleted ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.08)'}; display: flex; align-items: center; justify-content: space-between; color: #f8fafc; font-size: 0.95rem; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(99,102,241,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
                         <span style="font-weight: 500;">${isCompleted ? '✅' : '📖'} ${lesson.title}</span>
-                        <span style="font-size: 0.8rem; background: ${isCompleted ? 'rgba(16,185,129,0.2); color: #34d399;' : 'rgba(99,102,241,0.25); color: #a855f7;'}; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-weight: bold;">${isCompleted ? 'مكتمل' : 'ابدأ الدرس 🚀'}</span>
+                        <span style="font-size: 0.8rem; background: ${isCompleted ? 'rgba(16,185,129,0.2); color: #34d399;' : 'rgba(99,102,241,0.25); color: #a855f7;'}; padding: 4px 10px; border-radius: 6px; font-weight: bold;">${isCompleted ? 'مكتمل' : 'ابدأ الدرس 🚀'}</span>
                     </li>
                 `;
             }).join('');
         }
 
+        function renderQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            if(!course.quiz) return;
+            
+            quizContainer.innerHTML = course.quiz.map((qObj, qIdx) => `
+                <div style="background: rgba(2,6,23,0.5); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
+                    <p style="color: #f8fafc; font-weight: bold; margin-bottom: 12px; font-size: 0.95rem;">س ${qIdx + 1}: ${qObj.q}</p>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        ${qObj.options.map((opt, oIdx) => `
+                            <label style="color: #cbd5e1; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="radio" name="q-${qIdx}" value="${oIdx}" style="accent-color: #6366f1;">
+                                ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const total = course.quiz.length;
+            
+            course.quiz.forEach((qObj, qIdx) => {
+                const selected = document.querySelector(`input[name="q-${qIdx}"]:checked`);
+                if(selected && parseInt(selected.value) === qObj.correct) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.style.display = 'block';
+            if(score === total) {
+                resultDiv.style.color = '#34d399';
+                resultDiv.innerText = `🎉 ممتاز جداً يا بشمهندس! أجبت على كل الأسئلة بشكل صحيح (${score}/${total}).`;
+            } else {
+                resultDiv.style.color = '#f59e0b';
+                resultDiv.innerText = `💡 نتيجتك هي (${score}/${total}). راجع الدروس وحاول مرة أخرى لتحقيق العلامة الكاملة!`;
+            }
+        }
+
         function openLessonModal(index) {
             currentActiveIdx = index;
             const lesson = course.lessons[index];
-            if(lesson) {
-                document.getElementById('modal-lesson-title').innerText = lesson.title;
-                document.getElementById('modal-lesson-content').innerHTML = lesson.content;
-                document.getElementById('modal-lesson-code').innerText = lesson.code;
-                
-                updateCompleteButtonStyle();
-                document.getElementById('lesson-modal').style.display = 'flex';
-            }
+            document.getElementById('modal-lesson-title').innerText = lesson.title;
+            document.getElementById('modal-lesson-content').innerHTML = lesson.content;
+            document.getElementById('modal-lesson-code').innerText = lesson.code;
+            updateCompleteButtonStyle();
+            document.getElementById('lesson-modal').style.display = 'flex';
         }
 
         function toggleLessonComplete() {
             if (currentActiveIdx === null) return;
-            
             const index = completedLessons.indexOf(currentActiveIdx);
-            if (index > -1) {
-                completedLessons.splice(index, 1); // إزالة الإكمال إذا ضغط مرة أخرى
-            } else {
-                completedLessons.push(currentActiveIdx); // إضافة كمكتمل
-            }
+            if (index > -1) completedLessons.splice(index, 1);
+            else completedLessons.push(currentActiveIdx);
             
             localStorage.setItem(storageKey, JSON.stringify(completedLessons));
             renderLessonsList();
@@ -223,9 +235,7 @@
 
         function updateProgressUI() {
             const total = course.lessons.length;
-            const completed = completedLessons.length;
-            const percentage = Math.round((completed / total) * 100);
-            
+            const percentage = Math.round((completedLessons.length / total) * 100);
             document.getElementById('progress-text').innerText = percentage + '%';
             document.getElementById('progress-bar').style.width = percentage + '%';
         }
