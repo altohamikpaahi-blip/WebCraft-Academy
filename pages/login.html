@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | WebCraft Academy</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-theme="dark">
+    <div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+        <div class="glass-card" style="width: 100%; max-width: 400px; padding: 30px;">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #f8fafc;">تسجيل الدخول</h2>
+            <form onsubmit="event.preventDefault(); alert('تم تسجيل الدخول بنجاح! أهلاً بك في المنصة.'); window.location.href='../index.html';">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-secondary);">البريد الإلكتروني</label>
+                    <input type="email" required placeholder="name@example.com" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: white; outline: none;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-secondary);">كلمة المرور</label>
+                    <input type="password" required placeholder="••••••••" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: white; outline: none;">
+                </div>
+                <button type="submit" style="width: 100%; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">دخول</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">العودة إلى <a href="../index.html" style="color: var(--accent);">الرئيسية</a></p>
+        </div>
+    </div>
+</body>
+</html>
