@@ -1,26 +1,30 @@
-<!-- حاوية المستويات الثلاثة (الواجهة الرئيسية) -->
-<div class="levels-container" id="levelsContainer">
-    <div class="level-card easy">
-        <div class="level-icon">🟢</div>
-        <h3>المستوى السهل</h3>
-        <p>مقدمة في هيكلة صفحات الويب وأساسيات الـ HTML (3 دروس)</p>
-        <button onclick="loadLevel('easy')">دخول المسار</button>
-    </div>
-
-    <div class="level-card medium">
-        <div class="level-icon">🟡</div>
-        <h3>المستوى العادي</h3>
-        <p>تنسيق المواقع، الألوان، والتصميم المتجاوب CSS (3 دروس)</p>
-        <button onclick="loadLevel('medium')">دخول المسار</button>
-    </div>
-
-    <div class="level-card hard">
-        <div class="level-icon">🔴</div>
-        ### المستوى الصعب
-        <p>برمجة التفاعل، الجافاسكريبت، وتطوير التطبيقات (3 دروس)</p>
-        <button onclick="loadLevel('hard')">دخول المسار</button>
-    </div>
-</div>
-
-<!-- حاوية عرض الدروس (مخفية افتراضياً وتظهر عند اختيار المسار) -->
-<div id="lessons-view" style="display: none;"></div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تهامي للويب | Tohami Web</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body data-theme="dark">
+    <header class="navbar glass">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><span class="gradient-text">Tohami</span> Web 🚀</a>
+                        <nav class="nav-links">
+                <a href="index.html" class="active">الرئيسية</a>
+                <a href="./pages/courses.html">التعلم</a>
+                <a href="./pages/playground.html">المحرر</a>
+                <a href="./pages/login.html" style="background: rgba(99,102,241,0.2); padding: 5px 12px; border-radius: 6px; color: white;">دخول</a>
+            </nav>
+        </div>
+    </header>
+    <section class="hero-section" style="padding: 140px 20px 60px; text-align: center;">
+        <span class="badge" style="background: rgba(99,102,241,0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem;">المنصة العربية الأحدث لتطوير الويب 💡</span>
+        <h1 style="font-size: 2.5rem; margin: 20px 0;">من أول سطر كود إلى موقع منشور على الإنترنت 🚀</h1>
+        <p style="color: #94a3b8; max-width: 600px; margin: 0 auto 30px;">تعلم كيف تبني مواقع الويب، صمم صفحات احترافية، وجرّب الكود مباشرة.</p>
+        <a href="./pages/courses.html" class="btn btn-primary" style="background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">ابدأ التعلم الآن</a>
+    </section>
+    <script src="./data/courses.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
